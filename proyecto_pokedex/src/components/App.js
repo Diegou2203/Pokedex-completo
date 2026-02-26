@@ -25,6 +25,7 @@ function App() {
 
   if (isError) return <p>Error al cargar los pokémon</p>;
 
+  //loading
   if (isLoading) return (
     <div className="flex flex-col space-y-2">
       {[...Array(10)].map((_, i) => (
@@ -32,6 +33,7 @@ function App() {
       ))}
     </div>
   );
+
 
   const filtered = data.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
 
