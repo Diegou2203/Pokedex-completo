@@ -52,16 +52,15 @@ function App() {
       />
 
      <section className="max-w-6xl mx-auto p-4">
-        {/* Cambiamos grid-cols-1 por una rejilla responsiva que llega a 4 columnas */}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filtered.map((pokemon) => (
             <div 
               key={pokemon.id} 
-              // Cambiamos 'flex items-center' por 'flex flex-col' para que la imagen esté arriba
+
               className="p-4 bg-white rounded-lg shadow hover:shadow-xl transition flex flex-col items-center text-center border border-gray-100"
             >
               
-              {/* Imagen: la centramos y ajustamos tamaño */}
               <img 
                 src={pokemon.sprites?.front_default} 
                 alt={pokemon.name} 
@@ -73,13 +72,11 @@ function App() {
                   {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
                 </h2>
 
-                {/* Tipos con un poco más de estilo */}
                 <p className="text-sm text-gray-600 mt-2">
                   <span className="font-semibold">Tipos:</span><br />
                   {pokemon.types?.map(t => t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)).join(', ')}
                 </p>
                 
-                {/* Detalles pequeños */}
                 <p className="text-xs text-gray-400 mt-3 border-t pt-2">
                   Altura: {pokemon.height} | Peso: {pokemon.weight}
                 </p>
