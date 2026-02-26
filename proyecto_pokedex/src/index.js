@@ -4,7 +4,7 @@ import React from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 export const queryClient = new QueryClient();
-
+import './output.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
