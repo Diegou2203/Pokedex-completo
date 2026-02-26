@@ -54,7 +54,7 @@ function Pokemones() {
       
       <div className="flex font-serif font-size-2xl justify-center">
         <NavLink to="/">        
-          <button className="w-48 h-20 border-3 border-black-500 hover:bg-yellow-100 font-bold rounded-full hover">Volver al inicio</button>
+          <button className="w-48 h-20 border-3 border-black-500 hover:bg-gray-100 font-bold rounded-full hover">Volver al inicio</button>
         </NavLink>
       </div>
 
@@ -70,34 +70,32 @@ function Pokemones() {
       </div>
 
      
-     <section className=" mx-auto p-4 font-weight: 200">
-        <div className=" flex flex-wrap justify-center gap-9">
+     <section className="mx-auto p-4 font-weight: 200">
+        <div className="flex flex-wrap justify-center gap-9">
           {filtered.map((pokemon) => (
             <div 
               key={pokemon.id}
-              className="p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col items-center text-center border-2 border-gray-300 rounded-xl bg-white/50 w-64"
-            >
-              
-            <div className="bg-white/20 rounded-full p-4 mb-4">
-              <img 
-                src={pokemon.sprites?.front_default} 
-                alt={pokemon.name} 
-                className="w-32 h-32 drop-shadow-md"
-              />
+              className="p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-[#FFDE00] w-64"
+            >  
+            <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
+                <img 
+                  src={pokemon.sprites?.front_default} 
+                  alt={pokemon.name} 
+                  className="w-32 h-32 drop-shadow-md"
+                />
             </div>
 
-              <div className="mt-4">
-                <h2 className="font-bold text-xl text-gray-800">
-                  {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+            <div className="mt-4">
+                <h2 className="font-black text-2xl text-black uppercase italic">
+                  {pokemon.name}
                 </h2>
 
-                <p className="text-sm text-gray-600 mt-2">
-                  <span className="font-semibold">Tipos:</span><br />
-                  {pokemon.types?.map(t => t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)).join(', ')}
-                </p>
+                <div className="mt-2 py-1 px-3 bg-black text-white rounded-full text-xs font-bold inline-block">
+                  {pokemon.types?.map(t => t.type.name.toUpperCase()).join(' / ')}
+                </div>
                 
-                <p className="text-xs text-gray-400 mt-3 border-t pt-2">
-                  Altura: {pokemon.height} | Peso: {pokemon.weight}
+                <p className="text-xs text-black font-bold mt-3 border-t-2 border-black/20 pt-2">
+                  ALTURA: {pokemon.height} | PESO: {pokemon.weight}
                 </p>
               </div>
             </div>
