@@ -69,6 +69,7 @@ function Pokemones() {
         />
       </div>
 
+     
      <section className=" mx-auto p-4 font-weight: 200">
         <div className=" flex flex-wrap justify-center gap-9">
           {filtered.map((pokemon) => (
