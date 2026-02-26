@@ -25,7 +25,7 @@ function App() {
 
   if (isError) return <p>Error al cargar los pokémon</p>;
 
-  //loading
+  //loading code
   if (isLoading) return (
     <div className="flex flex-col space-y-2">
       {[...Array(10)].map((_, i) => (
