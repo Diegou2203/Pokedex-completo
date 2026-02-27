@@ -71,7 +71,7 @@ const {
   });
 
   //esto es para obtener la lista de pokemones de la primera página de resultados, o un array vacío si no hay datos disponibles.}
-  //porque cntiene todo si dice data 
+  //porque contiene todo si dice data 
   const pokemones = data?.pages?.[0]?.pokemons ?? [];
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -84,19 +84,14 @@ const {
     p.name.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
-  //validaciones
+  // ver pokemones  
+  
 
-  if(isLoading) return <p className="text-center text-2xl font-bold mt-10">Cargando...</p>
-
-  if(!isLoading && isError) return <p className="text-center text-2xl font-bold mt-10">Error al cargar los pokemones</p>
-
-  if(!isLoading && !isError && pokemones.length === 0) return <p className="text-center text-2xl font-bold mt-10">No se encontraron pokemones</p>
-
-
-  // mostrar pokedex  
-
+  //skeleton 
+  const skeleton = Array(20).fill(0);
   return (
     <div>
+
         <div className="w-full flex items-center justify-center ">
         <img src="https://th.bing.com/th/id/OIP.fnfCynIEx_dLpdZrZuZVywHaHa?w=176&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Logo"/>        
         <h1 className="font-mono text-8xl text-center ml-3 mr-3"
@@ -126,56 +121,86 @@ const {
             onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
+        
+  
+        {/* listado de pokemones*/}      
+        <section className="mx-auto p-4 font-weight: 200">
+            <div className="flex flex-wrap justify-center gap-9">
 
-      
-      <section className="mx-auto p-4 font-weight: 200">
-          <div className="flex flex-wrap justify-center gap-9">
-            {filteredPokemon.map(p => (
+            {/* validaciones*/}
+
+            {!isLoading && isError && (
+              <p className="text-center text-2xl font-bold mt-10">Error al cargar los pokemones</p>
+            )}
+
+            {!isLoading && !isError && pokemones.length === 0 && (
+              <p className="text-center text-2xl font-bold mt-10">No se encontraron pokemones</p>
+            )}
+
+            {/* SKELETON INICIAL*/}
+            {isLoading && skeleton.map((_, index) => (
+              <div key={`skel-init-${index}`} className="p-10 border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80">
+                <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4" />
+                <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded" />
+              </div>
+            ))}
+
+
+            {!isError && filteredPokemon.map( (p) => (
               <div 
                 key={p.id}
                 className="p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-[#FFDE00] w-64"
               >  
-              <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
+                <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
                   <img 
                     src={p.sprites?.front_default} 
                     alt={p.name} 
                     className="w-32 h-32 drop-shadow-md"
                   />
-              </div>
+                </div>
 
-              <div className="mt-4">
+                <div className="mt-4">
                   <h2 className="font-black text-2xl text-black uppercase italic">
                     {p.name}
                   </h2>
 
                   <div className="mt-2 py-1 px-3 bg-black text-white rounded-full text-xs font-bold inline-block">
+                   
                     {p.types?.map(t => t.type.name.toUpperCase()).join(' / ')}
                   </div>
-                  
+                    
                   <p className="text-xs text-black font-bold mt-3 border-t-2 border-black/20 pt-2">
                     ALTURA: {p.height} | PESO: {p.weight}
                   </p>
                 </div>
               </div>
+              ))}
+            </div>
+
+
+            {/* SKELETON MIENTRAS CARGA AL DARLE AL BOTON*/}
+            {isFetchingNextPage && skeleton.map((_, index) => (
+              <div key={`skel-init-${index}`} className="p-10 border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80">
+                <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4" />
+                <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded" />
+              </div>
             ))}
-          </div>
 
-    
-        {hasNextPage && !searchTerm && (
-          <div className="flex justify-center mt-12 mb-10">
-            <button 
-            
-              onClick={() => fetchNextPage()} 
 
-              disabled={isFetchingNextPage}
-              className="bg-red-500 text-white border-4 border-black px-10 py-4 rounded-xl font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none disabled:opacity-50"
-            >
-              {isFetchingNextPage ? "CARGANDO..." : "CARGAR MÁS"}
-            </button>
-          </div>
-        )}
+            {hasNextPage && !searchTerm && (
+              <div className="flex justify-center mt-12 mb-10">
+                <button 
+                
+                  onClick={() => fetchNextPage()} 
 
-        </section>
+                  disabled={isFetchingNextPage}
+                  className="bg-red-500 text-white border-4 border-black px-10 py-4 rounded-xl font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none disabled:opacity-50"
+                >
+                  {isFetchingNextPage ? "CARGANDO..." : "CARGAR MÁS"}
+                </button>
+              </div>
+            )}
+          </section>
     </div>
   )
 }
