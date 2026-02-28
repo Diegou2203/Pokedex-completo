@@ -84,11 +84,6 @@ const {
     p.name.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
-  // ver pokemones  
-  
-
-  //skeleton 
-  const skeleton = Array(20).fill(0);
   return (
     <div>
 
@@ -138,12 +133,22 @@ const {
             )}
 
             {/* SKELETON INICIAL*/}
-            {isLoading && skeleton.map((_, index) => (
-              <div key={`skel-init-${index}`} className="p-10 border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80">
-                <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4" />
-                <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded" />
+
+            {isLoading && (
+              <div className="flex flex-wrap gap-9 justify-center items-center">
+                {/* CAMBIADO A LENGTH 20 */}
+                {Array.from({ length: 20 }).map((_, index) => (
+                  <div 
+                    key={index} 
+                    className="p-10 transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80"
+                  >
+                    <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4 border-2 border-gray-400" />
+                    <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded mt-4" />
+                    <div className="h-4 bg-gray-300 w-1/2 mx-auto rounded mt-3" />
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
 
 
             {!isError && filteredPokemon.map( (p) => (
@@ -178,13 +183,20 @@ const {
             </div>
 
 
-            {/* SKELETON MIENTRAS CARGA AL DARLE AL BOTON*/}
-            {isFetchingNextPage && skeleton.map((_, index) => (
-              <div key={`skel-init-${index}`} className="p-10 border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80">
-                <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4" />
-                <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded" />
+            {isFetchingNextPage && (
+              <div className="flex flex-wrap gap-9 justify-center items-center mt-10">
+                {Array.from({ length: 20 }).map((_, index) => (
+                  <div 
+                    key={`skel-next-${index}`} 
+                    className="p-10 transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80"
+                  >
+                    <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4 border-2 border-gray-400" />
+                    <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded mt-4" />
+                    <div className="h-4 bg-gray-300 w-1/2 mx-auto rounded mt-3" />
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
 
 
             {hasNextPage && !searchTerm && (

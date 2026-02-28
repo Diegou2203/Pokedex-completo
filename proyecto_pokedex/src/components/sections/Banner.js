@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
 
 const Banner = () => {
   return (
@@ -17,25 +17,26 @@ const Banner = () => {
 
             {/* PANTALLA */}
             <div className="bg-[#98b31d] border-15 p-6 min-h-[300px] flex flex-col items-center justify-center text-center">
-            <h1 className="font-mono italic text-3xl font-black text-[#1a2d11] mb-3">
-                GAMEBOY ADVANCE <br/>
-            </h1>
+                <h1 className="font-mono italic text-3xl font-black text-[#1a2d11] mb-3">
+                    GAMEBOY ADVANCE <br/>
+                </h1>
 
-            <h1 className="font-mono italic text-2xl font-black text-[#1a2d11] mb-6">
-                GAME FREAK
-            </h1>       
+                <h1 className="font-mono italic text-2xl font-black text-[#1a2d11] mb-6">
+                    GAME FREAK
+                </h1>       
 
-            <div className="w-full space-y-4">
-                <NavLink to="/pokemones" className="block">
-                <button className="w-full bg-[#1a2d11] text-[#98b31d] py-3 px-4 font-mono font-bold text-xl uppercase hover:bg-[#2a451a] border-2 border-[#1a2d11] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    {">"} Ver Pokédex
-                </button>
-                </NavLink>
-                
-                <button className="w-full text-[#1a2d11] py-2 px-4 font-mono font-bold uppercase border-2 opacity-50 cursor-not-allowed">
-                Opciones
-                </button>
-            </div>
+                <div className="w-full space-y-4">
+                    <NavLink to="/pokemones" className="block">
+                    <button className="w-full bg-[#1a2d11] text-[#98b31d] py-3 px-4 font-mono font-bold text-xl uppercase hover:bg-[#2a451a] border-2 border-[#1a2d11] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        {">"} Ver Pokédex
+                    </button>
+                    </NavLink>
+                      <NavLink to="/juegos" className="block">
+                    <button className="w-full bg-[#1a2d11] text-[#98b31d] py-3 px-4 font-mono font-bold text-xl uppercase hover:bg-[#2a451a] border-2 border-[#1a2d11] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        {">"} Ingresa el juego
+                    </button>
+                    </NavLink>                  
+                </div>
             </div>
 
             {/* CONTROLES */}
