@@ -1,55 +1,6 @@
 import {useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useInfiniteQuery } from "@tanstack/react-query";
-
-//async significa que puede contener operaciones que tardan en completarse, como llamadas a APIs o temporizadores. 
-// Esto permite usar la palabra clave await dentro de la función para esperar a que esas operaciones se completen antes de continuar con el código. 
-// En este caso, fetchPokemons es una función asíncrona porque realiza una llamada a la API de PokeAPI para obtener datos de los pokemones, 
-// y necesitamos esperar a que esa llamada se complete antes de procesar los datos recibidos.
-const fetchPokemons = async ({ pageParam = 0 }) => {
-
-  //esto es para limitar la cantidad de pokemones que se cargan por página, 
-  const limit = 20;
-
-  // PokeAPI no tiene un endpoint específico para paginar, así que usamos el endpoint general con limit y offset
-  // offset se calcula como pageParam, que es el número de pokemones ya cargados
-  // Ejemplo: para la primera página, pageParam = 0, entonces offset = 0. Para la segunda página, pageParam = 20, entonces offset = 20, etc.
-  // Esto nos permite cargar los pokemones de 20 en 20 a medida que el usuario hace scroll o presiona el botón de cargar más
-
-  //await es necesario para esperar a que la respuesta de la API llegue antes de continuar con el código, ya que fetch es una operación asíncrona.
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${pageParam}`);
-  
-  //esto maneja el error en caso de que la respuesta no sea exitosa (por ejemplo, si la API está caída o hay un problema de red).
-  if (!res.ok) throw new Error('Error al cargar los pokemones');
-
-  //esto convierte la respuesta de la API en formato JSON, lo cual es necesario para poder trabajar con los datos de los pokemones en nuestro código.
-  const data = await res.json();
-
-  //esto es necesario porque el endpoint de la API que estamos usando solo devuelve información básica de cada Pokémon (nombre y URL), 
-  // y necesitamos hacer una llamada adicional para obtener los detalles completos de cada Pokémon (como su imagen, tipos, altura, peso, etc.).
-  // Por lo tanto, mapeamos sobre los resultados básicos y hacemos una llamada fetch adicional para cada Pokémon usando la URL proporcionada en la respuesta.
-  const detailedPromises = data.results.map(async (p) => {
-    const detailRes = await fetch(p.url);
-    return await detailRes.json();
-  });
-
-  //Promise.all se utiliza para esperar a que todas las promesas de detalle se resuelvan antes de continuar.
-  //Promise.all toma un array de promesas (en este caso, las promesas de detalle para cada Pokémon) y devuelve una nueva promesa que se resuelve cuando todas las promesas del array se han resuelto.
-  const results = await Promise.all(detailedPromises);
-
-  return {
-
-    // Esto devuelve un objeto con dos propiedades: pokemons, que contiene la lista de pokemones detallados, 
-    // y , que indica el cursor para la siguiente página de resultados.
-    pokemons: results,
-
-    //data es la respuesta original de la API que contiene la información básica de los pokemones,
-    //  incluyendo el campo next que indica si hay más pokemones para cargar.
-
-    nextAncla: data.next ? pageParam + limit : undefined, 
-  };
-}
-
+import { usePokemonInfinite } from "../hooks/usePokemonInfinite";
 
 function Pokemones() {
   //useInfiniteQuery es un hook de React Query que se utiliza para manejar la paginación de datos de manera eficiente.
@@ -60,17 +11,9 @@ const {
     fetchNextPage, // es una función que se llama para cargar la siguiente página de pokemones cuando el usuario presiona el botón de "Cargar más".
     isFetchingNextPage, // indica si se está cargando la siguiente página de pokemones, lo que nos permite mostrar un mensaje de "Cargando..." en el botón mientras se obtienen los nuevos datos.
     hasNextPage // indica si hay más páginas de pokemones para cargar, lo que nos permite mostrar u ocultar el botón de "Cargar más" según corresponda.
-  } = useInfiniteQuery({ 
-    queryKey: ['pokemones'],
-    //useInfiniteQuery requiere una función de consulta (queryFn) que se encargue de obtener los datos de los pokemones.
-    queryFn: fetchPokemons, //devuelve todo el arreglo de pokemones con su información detallada, y también incluye el campo nextAncla que indica el cursor para la siguiente página de resultados.
-    
-    //getNextPageParam utiliza los resultados de queryFn para determinar el cursor o ancla para la siguiente página de resultados. En este caso, se basa en el campo next de la respuesta original de la API para calcular el offset de la siguiente página.
-    getNextPageParam: (lastPage) => lastPage.nextAncla,
-  });
+  } = usePokemonInfinite();
 
   //esto es para obtener la lista de pokemones de la primera página de resultados, o un array vacío si no hay datos disponibles.}
-  //porque contiene todo si dice data 
   const pokemones = data?.pages?.[0]?.pokemons ?? [];
   const [searchTerm, setSearchTerm] = useState("");
 
