@@ -46,7 +46,6 @@ const fetchPokemons = async ({ pageParam = 0 }) => {
     //data es la respuesta original de la API que contiene la información básica de los pokemones,
     //  incluyendo el campo next que indica si hay más pokemones para cargar.
 
-    //data tiene los pokemones con url y nombre original
     nextAncla: data.next ? pageParam + limit : undefined, 
   };
 }
@@ -85,24 +84,22 @@ const {
   );
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#1a1a1a]">
 
-        <div className="w-full flex items-center justify-center ">
-        <img src="https://th.bing.com/th/id/OIP.fnfCynIEx_dLpdZrZuZVywHaHa?w=176&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Logo"/>        
-        <h1 className="font-mono text-8xl text-center ml-3 mr-3"
+        <div className="w-full flex items-center justify-center ">   
+        <h1 className="font-mono mt-10 text-8xl text-center ml-3 mr-3"
         style={{
-          color: 'black',
-          WebkitTextStroke: '3px black',
+          color: 'yellow',
+          WebkitTextStroke: '6px black',
           paintOrder: 'stroke fill' 
         }}>
           Pokédex
         </h1>
-        <img src="https://th.bing.com/th/id/OIP.fnfCynIEx_dLpdZrZuZVywHaHa?w=176&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Logo"/>
         </div>
         
-        <div className="flex font-serif font-size-2xl justify-center">
+        <div className="flex font-serif mt-10 font-size-2xl justify-center">
           <NavLink to="/">        
-            <button className="w-48 h-20 border-3 border-black-500 hover:bg-gray-100 font-bold rounded-full hover">Volver al inicio</button>
+            <button className="w-48 bg- h-20 border-3 bg-red-500 text-black border-black-500 hover:bg-gray-100 font-bold rounded-full hover shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">Volver al inicio</button>
           </NavLink>
         </div>
 
@@ -111,7 +108,7 @@ const {
           <input
             type="text"
             placeholder="Buscar Pokémon..."
-            className="w-full p-3 mt-10 mb-10 border-2 border-black-300 rounded-xl shadow-md outline-none"
+            className="w-full bg-white p-3 mt-10 mb-10 border-2 border-black-300 rounded-xl shadow-md"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
@@ -152,33 +149,26 @@ const {
 
 
             {!isError && filteredPokemon.map( (p) => (
-              <div 
-                key={p.id}
-                className="p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-[#FFDE00] w-64"
-              >  
-                <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
-                  <img 
-                    src={p.sprites?.front_default} 
-                    alt={p.name} 
-                    className="w-32 h-32 drop-shadow-md"
-                  />
-                </div>
-
-                <div className="mt-4">
-                  <h2 className="font-black text-2xl text-black uppercase italic">
-                    {p.name}
-                  </h2>
-
-                  <div className="mt-2 py-1 px-3 bg-black text-white rounded-full text-xs font-bold inline-block">
-                   
-                    {p.types?.map(t => t.type.name.toUpperCase()).join(' / ')}
+              <NavLink to={`/pokemon/${p.name}`} key={p.id}>
+                <div  
+                  key={p.id}
+                  className="p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-[#FFDE00] w-64"
+                >  
+                  <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
+                    <img 
+                      src={p.sprites?.front_default} 
+                      alt="Imagen del Pokémon"
+                      className="w-29 h-29 drop-shadow-md"
+                    />
                   </div>
-                    
-                  <p className="text-xs text-black font-bold mt-3 border-t-2 border-black/20 pt-2">
-                    ALTURA: {p.height} | PESO: {p.weight}
-                  </p>
+
+                  <div className="mt-4">
+                    <h2 className="font-black text-2xl text-black uppercase italic">
+                      {p.name}
+                    </h2>
+                  </div>
                 </div>
-              </div>
+              </NavLink>
               ))}
             </div>
 
@@ -187,7 +177,7 @@ const {
               <div className="flex flex-wrap gap-9 justify-center items-center mt-10">
                 {Array.from({ length: 20 }).map((_, index) => (
                   <div 
-                    key={`skel-next-${index}`} 
+                    key={index} 
                     className="p-10 transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80"
                   >
                     <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4 border-2 border-gray-400" />

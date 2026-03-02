@@ -55,7 +55,7 @@ const Juegos = () => {
     ];
 
     return (
-       <div className="h-screen bg-[#FFD700] flex flex-col items-center justify-center p-4">
+       <div className="h-screen bg-[#222] flex flex-col items-center justify-center p-4">
             {/* PANTALLA */}
             <div className="border-40 border-red-600 rounded-[20px] border-b-[80px]">
                 <div className="font-mono text-lg bg-[#98b31d] border-10 p-6 min-h-[200px] flex flex-col items-center justify-center text-center">
