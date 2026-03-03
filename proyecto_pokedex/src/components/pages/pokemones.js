@@ -22,132 +22,108 @@ const {
   const allPokemons = data?.pages.flatMap(page => page.pokemons) ?? [];
 
 
-  const filteredPokemon = allPokemons.filter((p) =>
-    p.name.toLowerCase().startsWith(searchTerm.toLowerCase())
-  );
+
+  const filteredPokemon = searchTerm
+    ? allPokemons
+        .filter((p) =>
+          p.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    : allPokemons;
+
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a]">
+  <div className="min-h-screen bg-gradient-to-b from-yellow-900 via-red-800 to-orange-900 pb-20">
 
-        <div className="w-full flex items-center justify-center ">   
-        <h1 className="font-mono mt-10 text-8xl text-center ml-3 mr-3"
-        style={{
-          color: 'yellow',
-          WebkitTextStroke: '6px black',
-          paintOrder: 'stroke fill' 
-        }}>
-          Pokédex
-        </h1>
-        </div>
-        
-        <div className="flex font-serif mt-10 font-size-2xl justify-center">
-          <NavLink to="/">        
-            <button className="w-48 bg- h-20 border-3 bg-red-500 text-black border-black-500 hover:bg-gray-100 font-bold rounded-full hover shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">Volver al inicio</button>
-          </NavLink>
-        </div>
+    {/* Header */}
+    <header className="flex flex-col items-center pt-10">
+      <h1 className="text-8xl font-extrabold text-yellow-400 drop-shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] uppercase tracking-wider">
+        Pokédex
+      </h1>
+      <NavLink to="/">
+        <button className="mt-6 px-12 py-4 bg-red-500 text-black font-bold rounded-full shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition">
+          Volver al inicio
+        </button>
+      </NavLink>
+    </header>
 
-
-        <div className="max-w-md mx-auto px-4">
-          <input
-            type="text"
-            placeholder="Buscar Pokémon..."
-            className="w-full bg-white p-3 mt-10 mb-10 border-2 border-black-300 rounded-xl shadow-md"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-        </div>
-        
-  
-        {/* listado de pokemones*/}      
-        <section className="mx-auto p-4 font-weight: 200">
-            <div className="flex flex-wrap justify-center gap-9">
-
-            {/* validaciones*/}
-
-            {!isLoading && isError && (
-              <p className="text-center text-2xl font-bold mt-10">Error al cargar los pokemones</p>
-            )}
-
-            {!isLoading && !isError && pokemones.length === 0 && (
-              <p className="text-center text-2xl font-bold mt-10">No se encontraron pokemones</p>
-            )}
-
-            {/* SKELETON INICIAL*/}
-
-            {isLoading && (
-              <div className="flex flex-wrap gap-9 justify-center items-center">
-                {/* CAMBIADO A LENGTH 20 */}
-                {Array.from({ length: 20 }).map((_, index) => (
-                  <div 
-                    key={index} 
-                    className="p-10 transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80"
-                  >
-                    <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4 border-2 border-gray-400" />
-                    <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded mt-4" />
-                    <div className="h-4 bg-gray-300 w-1/2 mx-auto rounded mt-3" />
-                  </div>
-                ))}
-              </div>
-            )}
-
-
-            {!isError && filteredPokemon.map( (p) => (
-              <NavLink to={`/pokemon/${p.name}`} key={p.id}>
-                <div  
-                  key={p.id}
-                  className="p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-[#FFDE00] w-64"
-                >  
-                  <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
-                    <img 
-                      src={p.sprites?.front_default} 
-                      alt="Imagen del Pokémon"
-                      className="w-29 h-29 drop-shadow-md"
-                    />
-                  </div>
-
-                  <div className="mt-4">
-                    <h2 className="font-black text-2xl text-black uppercase italic">
-                      {p.name}
-                    </h2>
-                  </div>
-                </div>
-              </NavLink>
-              ))}
-            </div>
-
-
-            {isFetchingNextPage && (
-              <div className="flex flex-wrap gap-9 justify-center items-center mt-10">
-                {Array.from({ length: 20 }).map((_, index) => (
-                  <div 
-                    key={index} 
-                    className="p-10 transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-gray-200 animate-pulse w-64 h-80"
-                  >
-                    <div className="bg-gray-300 rounded-full w-32 h-32 mx-auto mb-4 border-2 border-gray-400" />
-                    <div className="h-6 bg-gray-300 w-3/4 mx-auto rounded mt-4" />
-                    <div className="h-4 bg-gray-300 w-1/2 mx-auto rounded mt-3" />
-                  </div>
-                ))}
-              </div>
-            )}
-
-
-            {hasNextPage && !searchTerm && (
-              <div className="flex justify-center mt-12 mb-10">
-                <button 
-                
-                  onClick={() => fetchNextPage()} 
-
-                  disabled={isFetchingNextPage}
-                  className="bg-red-500 text-white border-4 border-black px-10 py-4 rounded-xl font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none disabled:opacity-50"
-                >
-                  {isFetchingNextPage ? "CARGANDO..." : "CARGAR MÁS"}
-                </button>
-              </div>
-            )}
-          </section>
+    {/* Buscador */}
+    <div className="max-w-md mx-auto px-4 mt-10">
+      <input
+        type="text"
+        placeholder="Buscar Pokémon..."
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
+        className="w-full p-4 rounded-xl border-2 border-black bg-gray-100 text-gray-900 shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-400 transition"
+      />
     </div>
-  )
+
+    {/* Listado de Pokémons */}
+    <section className="max-w-6xl mx-auto px-4 mt-12">
+      <div className="flex flex-wrap justify-center gap-8">
+
+        {/* Error o sin resultados */}
+        {!isLoading && isError && <p className="text-red-500 text-2xl font-bold text-center w-full">Error al cargar los pokemones</p>}
+        {!isLoading && !isError && pokemones.length === 0 && <p className="text-gray-200 text-2xl font-bold text-center w-full">No se encontraron pokemones</p>}
+
+        {/* Skeleton Loading */}
+        {isLoading && Array.from({ length: 20 }).map((_, index) => (
+          <div
+            key={index}
+            className="w-64 h-80 bg-gray-300 border-4 border-black rounded-xl flex flex-col items-center justify-center animate-pulse"
+          >
+            <div className="w-32 h-32 bg-gray-400 rounded-full mb-4 border-2 border-gray-500" />
+            <div className="h-6 w-3/4 bg-gray-400 rounded mb-2" />
+            <div className="h-4 w-1/2 bg-gray-400 rounded" />
+          </div>
+        ))}
+
+        {/* Pokémons */}
+        {!isError && filteredPokemon.map(p => (
+          <NavLink key={p.id} to={`/pokemon/${p.name}`}>
+            <div className="w-64 h-80 bg-yellow-400 border-4 border-black rounded-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-2 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition flex flex-col items-center justify-center text-center">
+              <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
+                <img src={p.sprites?.front_default} alt={p.name} className="w-32 h-32" />
+              </div>
+              <h2 className="text-2xl font-extrabold uppercase italic text-black">{p.name}</h2>
+            </div>
+          </NavLink>
+        ))}
+
+      </div>
+
+      {/* Skeleton al cargar siguiente página */}
+      {isFetchingNextPage && (
+        <div className="flex flex-wrap justify-center gap-8 mt-10">
+          {Array.from({ length: 20 }).map((_, index) => (
+            <div
+              key={index}
+              className="w-64 h-80 bg-gray-300 border-4 border-black rounded-xl flex flex-col items-center justify-center animate-pulse"
+            >
+              <div className="w-32 h-32 bg-gray-400 rounded-full mb-4 border-2 border-gray-500" />
+              <div className="h-6 w-3/4 bg-gray-400 rounded mb-2" />
+              <div className="h-4 w-1/2 bg-gray-400 rounded" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Botón “Cargar más” */}
+      {hasNextPage && !searchTerm && (
+        <div className="flex justify-center mt-12">
+          <button
+            onClick={fetchNextPage}
+            disabled={isFetchingNextPage}
+            className="px-12 py-4 bg-red-500 text-white border-4 border-black rounded-xl font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none disabled:opacity-50 transition"
+          >
+            {isFetchingNextPage ? "CARGANDO..." : "CARGAR MÁS"}
+          </button>
+        </div>
+      )}
+
+    </section>
+  </div>
+);
 }
 
 

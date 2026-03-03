@@ -1,31 +1,32 @@
 import axios from 'axios';
 
-export const axiosServer = axios.create({
+const axiosServer = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com', // API de prueba para el CRUD
   headers: { 'Content-Type': 'application/json' }
 });
 
-export const crudService = {
+export const axiosService = {
 
-  getFavorites: async () => {
-    const res = await axiosServer.get('/posts?_limit=5'); // Traer 5 posts de prueba
+  getAccount: async () => {
+    const res = await axiosServer.get('/posts?_limit=5'); 
     return res.data;
   },
 
 
-  addFavorite: async (newPoke) => {
-    const res = await axiosServer.post('/posts', newPoke);
-    return res.data;
+  addAccount: async (newUser) => {
+    const res = await axiosServer.post('/posts', newUser);
+    return res;
   },
 
  
-  updateFavorite: async (id, updatedData) => {
+  updateAccount: async (id, updatedData) => {
     const res = await axiosServer.put(`/posts/${id}`, updatedData);
-    return res.data;
+    return res;
   },
 
-  deleteFavorite: async (id) => {
-    await axiosServer.delete(`/posts/${id}`);
-    return id; 
+  deleteAccount: async (id) => {
+    const res = await axiosServer.delete(`/posts/${id}`);
+    return res; 
   },
 };
+

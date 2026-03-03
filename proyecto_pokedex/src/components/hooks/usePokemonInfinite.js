@@ -10,3 +10,5 @@ export const usePokemonInfinite = (limit = 20) => {
     //getNextPageParam utiliza los resultados de queryFn para determinar el cursor o ancla para la siguiente página de resultados. En este caso, se basa en el campo next de la respuesta original de la API para calcular el offset de la siguiente página.
     getNextPageParam: (lastPage) => lastPage.nextAncla}))
 }
+
+

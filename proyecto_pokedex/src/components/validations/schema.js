@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-export const juegosDisponibles = [
+const juegosDisponibles = [
   "Pokemon Rojo",
   "Pokemon Azul",
   "Pokemon Amarillo",
@@ -20,6 +20,12 @@ export const juegosDisponibles = [
 ];;
 
 
+  //JUEGOS PARA SELECT
+  export const opcionesJuegos = [
+  Object.entries(juegosDisponibles).map(([key, value]) => {
+      return <option value={key} key={key}>{value}</option>
+    })
+  ];
 
 export const userSchema = z.object({
    
