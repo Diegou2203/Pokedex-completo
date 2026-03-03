@@ -1,12 +1,8 @@
-import { useParams} from "react-router-dom";
+import { NavLink, useParams} from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-
-const fetchOnePokemon = async (name) => {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-  if (!res.ok) throw new Error("No se encontró el Pokémon");
-  return await res.json();
-};
-
+import { fetchOnePokemon } from "../services/onePokemonService";
+import { fetchAllCountries } from "../services/fetchAllCountries";
+import { useMemo } from "react";
 
 const VerDetalles = () => {
     const { name } = useParams();
@@ -16,13 +12,24 @@ const VerDetalles = () => {
         queryFn: () => fetchOnePokemon(name),
     });
 
+    const { data: countriesData} = useQuery({
+        queryKey: ["countries"],
+        queryFn: () => fetchAllCountries(),
+    });
+
+    const randomCountryName = useMemo(() => {
+        if (!countriesData || countriesData.length === 0) return null;
+        const randomIndex = Math.floor(Math.random() * countriesData.length);
+        return countriesData[randomIndex].name?.common;
+    }, [countriesData]);
+
+
+
     if (isError) return <div className="text-center mt-20">Error al cargar datos.</div>;
-
-
-    return(
     
-
-    <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center">
+    return(
+    <NavLink to={`/name/${randomCountryName}`}>
+         <div className="min-h-screen bg-gradient-to-r from-purple-900 via-blue-800 to-green-900 flex flex-col items-center  justify-center">
 
         {isLoading && (
           <div className="p-10 transition-all flex flex-col items-center text-center border-4 border-black rounded-3xl bg-gray-200 animate-pulse w-full max-w-lg h-[600px]">
@@ -36,10 +43,18 @@ const VerDetalles = () => {
         )
         }
 
+        <h2 className="mb-20 font-black mt-6 text-4xl text-yellow-400 uppercase italic">Selecciona al Pokémon para ver su país de procedencia</h2>
+
+      <NavLink to="/">
+        <button className=" mb-20 px-12 py-4 bg-red-500 text-black font-bold rounded-full shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition">
+          Volver al inicio
+        </button>
+      </NavLink>
+
         {!isLoading && data && (
         <div  
             key={data.id}
-            className=" p-10 w-100 transition-all flex flex-col items-center text-center border-4 border-black rounded-xl bg-[#FFDE00] w-64"
+            className=" p-10 w-100 animate-pulse transition-all flex flex-col items-center text-center shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition border-4 border-black rounded-xl bg-[#FFDE00] w-64"
         >  
             <div className="bg-white border-2 border-black rounded-full p-4 mb-4">
                 <img 
@@ -49,12 +64,12 @@ const VerDetalles = () => {
                 />
             </div>
             <div >
-                <h2 className="font-black text-2xl text-black uppercase italic">
+                <h2 className="font-black text-2xl uppercase italic">
                     {data.name}
                 </h2>
             </div>
 
-             <h2 className="font-black mt-6 text-1xl text-black uppercase italic">
+             <h2 className="font-black mt-6 text-1xl uppercase italic">
                 Tipos:
             </h2>
 
@@ -66,7 +81,7 @@ const VerDetalles = () => {
                 MOVIMIENTOS:
             </h2>
 
-            <div className="mt-2 w-full py-1 px-3 bg-black text-white rounded-full text-xs font-bold inline-block">     
+            <div className="mt-2 w-fit py-1 px-3 bg-black text-white rounded-full text-xs font-bold inline-block">     
                 {data.moves?.map(m => m.move.name.toUpperCase()).slice(0,3).join(' / ')}
             </div>
 
@@ -83,12 +98,18 @@ const VerDetalles = () => {
                 ))}
             </div>
 
-            <strong className="text-black italic font-bold mt-6 border-t-2 border-black/20 pt-2">
+            <h2 className="font-black mt-6 text-1xl text-black uppercase italic">
+                ESTADÍSTICAS FÍSICAS:
+            </h2>
+
+            <strong className="mt-2 w-fit py-1 px-3 bg-black text-white rounded-full text-xs font-bold inline-block">
                 ALTURA: {data.height} cm | PESO: {data.weight} kg
             </strong>  
         </div>
         )}
     </div>
+    </NavLink>
+   
     )
 }
 
