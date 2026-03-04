@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 const VerDetalles = () => {
     const { name } = useParams();
-    const navigate = useNavigate(); // Hook for programmatic navigation
+    const navigate = useNavigate(); 
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["pokemon", name],
@@ -24,7 +24,6 @@ const VerDetalles = () => {
         return countriesData[randomIndex].name?.common;
     }, [countriesData]);
 
-    // Function to handle the outer "card" click
     const handlePokeClick = () => {
         if (randomCountryName) {
             navigate(`/name/${randomCountryName}`);
@@ -34,7 +33,7 @@ const VerDetalles = () => {
     if (isError) return <div className="text-center mt-20">Error al cargar datos.</div>;
 
     return (
-        /* Changed outer NavLink to a div */
+    
         <div className="min-h-screen bg-gradient-to-r from-purple-900 via-blue-800 to-green-900 flex flex-col items-center justify-center">
 
             {isLoading && (
@@ -52,7 +51,6 @@ const VerDetalles = () => {
                 Selecciona al Pokémon para ver su país de procedencia
             </h2>
 
-            {/* Internal NavLink is now safe because the parent is a div */}
             <NavLink to="/">
                 <button className="mb-20 px-12 py-4 bg-red-500 text-black font-bold rounded-full shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition">
                     Volver al inicio
@@ -62,7 +60,7 @@ const VerDetalles = () => {
             {!isLoading && data && (
                 <div
                     key={data.id}
-                    onClick={handlePokeClick} // Click logic moved here
+                    onClick={handlePokeClick}
                     className="cursor-pointer p-10 w-100 animate-pulse transition-all flex flex-col items-center text-center shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition border-4 border-black rounded-xl bg-[#FFDE00] w-64"
                 >
                     <div className="bg-white border-2 border-black rounded-full p-4 mb-4">

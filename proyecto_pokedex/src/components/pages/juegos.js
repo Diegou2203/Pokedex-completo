@@ -2,19 +2,33 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema, opcionesJuegos } from "../validations/schema";
 import { NavLink } from "react-router-dom";
-import { localCRUD } from "../services/axiosService_Local";
+import { localCRUD } from "../services/serviceLocal";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import axios from "axios"
+import { userSchema1 } from "../validations/schema2";
+
+
 
 const Juegos = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm({ 
     resolver: zodResolver(userSchema) 
   });
   
+ const { 
+    register: registerPost, 
+    handleSubmit: handleSubmitPost, 
+    reset: resetPost,
+    formState: { errors: postErrors } 
+  } = useForm({
+    resolver: zodResolver(userSchema1)
+  });
+
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [isSending, setIsSending] = useState(false);
 
-  // GET: React Query
+  // GET
   const { data: accounts = [], isLoading, refetch } = useQuery({
     queryKey: ["trainerAccounts"],
     queryFn: localCRUD.getAccount
@@ -22,8 +36,35 @@ const Juegos = () => {
 
   const showFeedback = (texto, tipo = 'success') => {
     tipo === 'error' ? setError(texto) : setSuccess(texto);
-    setTimeout(() => { setError(null); setSuccess(null); }, 3000);
+    setTimeout(() => 
+      { setError(null); 
+        setSuccess(null);
+      }, 3000);  
   };
+
+
+  const enviarReporteOak = async (data) => {
+      setIsSending(true);
+      try {
+        const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {
+          title: "Reporte de Entrenador",
+          body: data.comentario,
+          userId: 1
+        });
+        
+        if (response.status === 201) {
+          showFeedback("¡Reporte enviado al Prof. Oak!");
+
+          resetPost();
+        }
+
+
+      } catch (err) {
+        showFeedback("Fallo en la conexión del PC", "error");
+      } finally {
+        setIsSending(false);
+      }
+    };
 
   // CREATE
   const enviar = async (data) => {
@@ -36,7 +77,6 @@ const Juegos = () => {
       showFeedback("Error al registrar", "error");
     }
   };
-
 
   const handleUpdate = async (id) => {
     try {
@@ -179,6 +219,28 @@ const Juegos = () => {
                 </div>
               )}
             </div>
+
+                 {/* FORM PARA JSONPLACEHOLDER*/}
+                <div className="border-t-4 border-double border-black/30 pt-4">
+                      {/* FORM 2: EXTERNO (JSONPlaceholder) */}
+                      <h3 className="text-[10px] font-black uppercase mb-2">PC de Bill - Enviar Reporte:</h3>
+                      <form onSubmit={handleSubmitPost(enviarReporteOak)} className="flex flex-col gap-2 p-2 bg-black/10 rounded">
+                          <textarea 
+                          {...registerPost("comentario")}
+                          placeholder="Mensaje para el Profesor..."
+                          className="bg-[#8b9d1a]/50 border-2 border-black p-2 text-[10px] font-bold h-14 outline-none"
+                          />
+                          {postErrors.comentario && <span className="text-red-900 text-[9px] font-bold">{postErrors.comentario.message}</span>}
+                                
+                          <button 
+                            disabled={isSending}
+                            type="submit" 
+                            className="bg-blue-800 text-white p-1 text-[9px] font-black uppercase border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 disabled:opacity-50"
+                          >
+                            {isSending ? "ENVIANDO..." : "CONECTAR CON KANTO"}
+                          </button>
+                      </form>
+                  </div>
           </div>
         </div>
 
