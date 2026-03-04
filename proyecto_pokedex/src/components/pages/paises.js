@@ -59,7 +59,7 @@ const Paises = () => {
             </h2>
 
             <div className="mt-2 py-1 px-3 bg-black text-white rounded-full text-xs font-bold inline-block">     
-                {Object.values(data?.[0].languages).slice(0,3).join(" / ")}
+                {data?.[0]?.languages ? Object.values(data[0].languages).slice(0,3).join(" / ") : "N/A"}
             </div>
 
             <h2 className="font-black mt-6 text-1xl text-black uppercase italic">
