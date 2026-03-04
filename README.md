@@ -17,11 +17,20 @@ La aplicación funciona como una "consola virtual" que permite a los usuarios:
 Este proyecto es una "consola virtual" funcional que permite a los usuarios registrar sus partidas de Pokémon, consultar una Pokédex en tiempo real y explorar datos de países de todo el mundo.
 
 ---
+## 🌳 Estructura de Desarrollo por Niveles (Ramas)
 
+El proyecto se ha desarrollado de forma incremental, siguiendo una metodología de aprendizaje y escalabilidad. Puedes explorar la evolución del código cambiando entre las siguientes ramas de GitHub:
+
+* **`nivel-1` (Básico):** Consumo de API con React Query, listado responsivo, Skeletons de carga y filtrado simple.
+* **`nivel-2` (Intermedio):** Implementación de React Router para navegación, vista de detalle, scroll infinito y validación inicial con Zod.
+* **`nivel-3` (Avanzado - Actual):** Arquitectura completa con CRUD funcional, integración de múltiples APIs, manejo de errores personalizado y UI pulida.
+
+---
 ## ✨ Características Principales
 
 * **🕹️ Interfaz Retro:** UI inspirada en una GameBoy Advance diseñada puramente con **Tailwind CSS v4**.
 * **💾 Gestión de Partidas (CRUD Local):** Sistema para guardar, editar y eliminar datos de entrenador persistidos en `localStorage`.
+* **♾️ Paginación Infinita:** Implementación de **Infinite Scroll** en la Pokédex.
 * **🔍 Pokédex Pro:** Consumo de la [PokeAPI](https://pokeapi.co/) con lógica de carga de detalles individuales.
 * **🌎 Explorador Global:** Consulta de población, capitales e idiomas mediante la [Rest Countries API](https://restcountries.com/).
 * **⚡ Fetching Inteligente:** Implementación de **TanStack Query (React Query)** para manejo de caché, estados de carga (`isLoading`) y re-fetching automático.
@@ -69,9 +78,12 @@ Para ejecutar este proyecto localmente, sigue estos pasos:
 4. **Compilación de estilos (Tailwind CLI)**
 Si deseas actualizar o modificar los estilos de Tailwind en tiempo real:
 
-   ```bash``` 
- 
     ```npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch``` 
+
+5. **Ejecución del código**
+Para poder compilar el código es necesario escribir este comando en una nueva terminal (Command Prompt):
+
+    ```yarn start``` 
 
 ---
 
@@ -83,4 +95,21 @@ src/
 ├── pages/             # Vistas principales de la aplicación (Home, CRUD de Juegos, Pokédex y Explorador de Países).
 ├── sections/          # Componentes de UI de alto nivel, como la carcasa decorativa y el banner de la GameBoy.
 ├── validations/       # Definición de esquemas de datos y reglas de validación utilizando Zod.
-└── App.js             # Punto de entrada de la aplicación y configuración de React Router para la navegación dinámica.```
+└── App.js             # Punto de entrada de la aplicación y configuración de React Router para la navegación dinámica.
+```
+
+## Despliegue
+
+🌐 Despliegue (Deployment)
+El proyecto se encuentra desplegado y funcional en la nube:
+
+🔗 Demo en vivo: Poké-Entrenador Explorer
+
+Plataforma: Vercel (CI/CD deshabilitado)
+Link de visita: https://pokedex-completo-791dusz87-diegou2203s-projects.vercel.app/
+
+<div align="center">
+<img width=90% justify-center alt="image" src="https://github.com/user-attachments/assets/22afbedf-2366-4f99-8a09-4247b39d1b59" />   
+</div>
+
+
