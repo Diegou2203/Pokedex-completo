@@ -1,4 +1,4 @@
-<img width="1321" height="735" alt="image" src="https://github.com/user-attachments/assets/1d311068-160a-4cb3-99d5-9a167b7bbc45" /># 🎮 Poké-Entrenador & World Explorer🚀 
+🎮 Poké-Entrenador & World Explorer🚀 
 Una aplicación web con estética Retro GameBoy para gestionar partidas de Pokémon y explorar datos globales, construida con React y las mejores prácticas de manejo de estado asíncrono.
 
 ## 🧐 Sobre el Proyecto
