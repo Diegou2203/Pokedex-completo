@@ -54,7 +54,8 @@ const Juegos = () => {
         
         if (response.status === 201) {
           showFeedback("¡Reporte enviado al Prof. Oak!");
-
+          console.log("Solicitud de POST:", response.status)
+          console.log("Comentario subido", response.data)
           resetPost();
         }
 
