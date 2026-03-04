@@ -106,7 +106,7 @@ El proyecto se encuentra desplegado y funcional en la nube:
 🔗 Demo en vivo: Poké-Entrenador Explorer
 
 Plataforma: Vercel (CI/CD deshabilitado)
-Link de visita: [[https://pokedex-completo-791dusz87-diegou2203s-projects.vercel.app/](https://pokedex-completo-4dv40ffju-diegou2203s-projects.vercel.app/)](https://pokedex-completo-wngeo2t41-diegou2203s-projects.vercel.app/)
+Link de visita: [https://pokedex-completo-wngeo2t41-diegou2203s-projects.vercel.app/](https://pokedex-completo.vercel.app)
 
 <div align="center">
  <img width=90% alt="image" src="https://github.com/user-attachments/assets/9d454c39-e8fa-4509-b400-74babe38c444" /> 
