@@ -1,4 +1,4 @@
-# 🎮 Poké-Entrenador & World Explorer🚀 
+<img width="1321" height="735" alt="image" src="https://github.com/user-attachments/assets/1d311068-160a-4cb3-99d5-9a167b7bbc45" /># 🎮 Poké-Entrenador & World Explorer🚀 
 Una aplicación web con estética Retro GameBoy para gestionar partidas de Pokémon y explorar datos globales, construida con React y las mejores prácticas de manejo de estado asíncrono.
 
 ## 🧐 Sobre el Proyecto
@@ -109,7 +109,7 @@ Plataforma: Vercel (CI/CD deshabilitado)
 Link de visita: [https://pokedex-completo-791dusz87-diegou2203s-projects.vercel.app/](https://pokedex-completo-4dv40ffju-diegou2203s-projects.vercel.app/)
 
 <div align="center">
-<img width=90% justify-center alt="image" src="https://github.com/user-attachments/assets/22afbedf-2366-4f99-8a09-4247b39d1b59" />   
+ <img width=90% alt="image" src="https://github.com/user-attachments/assets/9d454c39-e8fa-4509-b400-74babe38c444" /> 
 </div>
 
 
