@@ -20,9 +20,7 @@ const {
   //esto es para obtener una lista de todos los pokemones cargados hasta el momento, combinando los resultados de todas las páginas obtenidas a través de useInfiniteQuery.
   //flatmap se utiliza para aplanar el array de páginas en un solo array de pokemones, lo que nos permite trabajar con una lista completa de pokemones cargados hasta el momento, independientemente de cuántas páginas se hayan obtenido. 
   const allPokemons = data?.pages.flatMap(page => page.pokemons) ?? [];
-
-
-
+  
   const filteredPokemon = searchTerm
     ? allPokemons
         .filter((p) =>
